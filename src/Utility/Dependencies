@@ -1,0 +1,8 @@
+
+
+
+org.seleniumhq.selenium:selenium-java:4.43.0
+org.testng:testng:7.12.0
+commons-io:commons-io:2.20.0
+org.slf4j:slf4j-api:2.0.17
+org.slf4j:slf4j-nop:2.0.17
