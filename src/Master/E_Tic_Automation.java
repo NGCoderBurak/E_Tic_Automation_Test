@@ -27,6 +27,14 @@ public class E_Tic_Automation extends BaseDriver {
 
 
     }
+    @Test (priority = 4)
+    public void sepeteUrunEkleme()
+    {
+
+
+
+
+    }
 
 
 
