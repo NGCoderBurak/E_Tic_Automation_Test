@@ -13,4 +13,15 @@ public class E_Tic_Automation extends BaseDriver {
 
     }
 
+    @Test (priority = 2)
+    public void UrunArama()
+    {
+
+
+
+
+    }
+
+
+
 }
