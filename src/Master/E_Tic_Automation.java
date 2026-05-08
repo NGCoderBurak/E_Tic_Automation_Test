@@ -31,6 +31,11 @@ public class E_Tic_Automation extends BaseDriver {
     public void sepeteUrunEkleme()
     {
 
+    }
+
+
+    @Test (priority = 5)
+    public void CheckoutTesti () {
 
 
 
@@ -38,4 +43,8 @@ public class E_Tic_Automation extends BaseDriver {
 
 
 
-}
+
+
+
+
+    }
