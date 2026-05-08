@@ -30,7 +30,30 @@ public class E_Tic_Automation extends BaseDriver {
 
 
     }
+    @Test (priority = 3)
+    public void UrunDetay()
+    {
+
+
+    }
+    @Test (priority = 4)
+    public void sepeteUrunEkleme()
+    {
+
+    }
+
+
+    @Test (priority = 5)
+    public void CheckoutTesti () {
 
 
 
-}
+    }
+
+
+
+
+
+
+
+    }
