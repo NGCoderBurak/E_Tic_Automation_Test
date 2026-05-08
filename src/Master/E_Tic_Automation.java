@@ -21,6 +21,12 @@ public class E_Tic_Automation extends BaseDriver {
 
 
     }
+    @Test (priority = 3)
+    public void UrunDetay()
+    {
+
+
+    }
 
 
 
