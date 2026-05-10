@@ -1,6 +1,7 @@
 package Master;
 
 import Utility.BaseDriver;
+import Utility.MyFunc;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -12,6 +13,9 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class E_Tic_Automation extends BaseDriver {
@@ -77,6 +81,14 @@ public class E_Tic_Automation extends BaseDriver {
         if (consentButton.size() > 0) // bu element var ise ekranda
             consentButton.get(0).click();
 
+
+
+
+        List<WebElement> errorMsg=driver.findElements(By.xpath("//*[text()='Invalid credentials']"));
+        if (!errorMsg.isEmpty()){
+            MyFunc.hataliEkran();
+        }
+
     }
 
     @Test(priority = 3)
@@ -93,7 +105,7 @@ public class E_Tic_Automation extends BaseDriver {
 
     @Test(priority = 4)
     public void sepeteUrunEkleme() {
-
+        
     }
 
 
@@ -102,8 +114,12 @@ public class E_Tic_Automation extends BaseDriver {
 
 
     }
-/*
-    List<WebElement> errorMsg=driver.findElements(By.xpath("//*[text()='Invalid credentials']"));
+
+
+
+
+
+    /*List<WebElement> errorMsg=driver.findElements(By.xpath("//*[text()='Invalid credentials']"));
         if (errorMsg.size() > 0)  //hata olmuş demektir, ekran kaydını alalım
     {
         System.out.println("Hata oldu, ekran görüntüsünü alalım");
@@ -119,7 +135,7 @@ public class E_Tic_Automation extends BaseDriver {
     // TODO :  Öyle bir şey yapınki her ekran kaydı , AYRI AYRI kaydedilsin. 2025_03_26_13_56
 
     E_Tic_Automation();
-*/
+
 /* YZ önerisi
     public void takeScreenshot(String fileName) throws IOException {
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
