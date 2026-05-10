@@ -81,6 +81,16 @@ public class E_Tic_Automation extends BaseDriver {
         if (consentButton.size() > 0) // bu element var ise ekranda
             consentButton.get(0).click();
 
+        // Doğru bilgilerle login (Önceki adımda oluşturulan veriler)
+        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys("testuser_99@mail.com");
+        driver.findElement(By.cssSelector("input[data-qa='login-password']")).sendKeys("Password123");
+        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
+
+        // “Logged in as username” doğrulanır
+        WebElement loggedInMsg = driver.findElement(By.xpath("//*[contains(text(),'Logged in as')]"));
+        Assert.assertTrue(loggedInMsg.isDisplayed());
+        Assert.assertTrue(loggedInMsg.getText().contains("TestUser"));
+
 
 
 
