@@ -7,6 +7,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -14,7 +15,62 @@ import java.io.IOException;
 import java.util.List;
 
 public class E_Tic_Automation extends BaseDriver {
+
     @Test(priority = 1)
+    public void signUp()  {
+        // 1. Home Page açılır
+        driver.get("https://automationexercise.com");
+        List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
+        if (consentButton.size() > 0) // bu element var ise ekranda
+            consentButton.get(0).click();
+
+        // 2. Signup / Login tıklanır
+        driver.findElement(By.xpath("//a[contains(text(),'Signup / Login')]")).click();
+
+        // 3. Yeni kullanıcı bilgileri girilir
+        driver.findElement(By.cssSelector("input[data-qa='signup-name']")).sendKeys("TestUser");
+        driver.findElement(By.cssSelector("input[data-qa='signup-email']")).sendKeys("testuser_99@mail.com");
+        driver.findElement(By.cssSelector("button[data-qa='signup-button']")).click();
+
+        // 4. Formdaki dropdown’lar seçilir (Wait kullanımı)
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_gender1"))).click();
+        driver.findElement(By.id("password")).sendKeys("Password123");
+
+        Select days = new Select(driver.findElement(By.id("days")));
+        days.selectByVisibleText("10");
+
+        Select months = new Select(driver.findElement(By.id("months")));
+        months.selectByVisibleText("May");
+
+        Select years = new Select(driver.findElement(By.id("years")));
+        years.selectByValue("1995");
+
+        // 5. Adres bilgileri doldurulur
+        driver.findElement(By.id("first_name")).sendKeys("Ali");
+        driver.findElement(By.id("last_name")).sendKeys("Can");
+        driver.findElement(By.id("address1")).sendKeys("Karanfil Sokak No:5");
+
+        Select country = new Select(driver.findElement(By.id("country")));
+        country.selectByVisibleText("Canada");
+
+        driver.findElement(By.id("state")).sendKeys("Ontario");
+        driver.findElement(By.id("city")).sendKeys("Toronto");
+        driver.findElement(By.id("zipcode")).sendKeys("M5H");
+        driver.findElement(By.id("mobile_number")).sendKeys("1234567890");
+
+        // 6. Hesap oluşturulur
+        driver.findElement(By.cssSelector("button[data-qa='create-account']")).click();
+
+        // 7. “ACCOUNT CREATED!” doğrulanır (Assertion)
+        WebElement successMsg = driver.findElement(By.cssSelector("h2[data-qa='account-created']"));
+        Assert.assertEquals(successMsg.getText(), "ACCOUNT CREATED!");
+
+        // 8. Screenshot alınır
+        // takeScreenshot("AccountCreatedSuccess");
+    }
+
+
+    @Test(priority = 2)
     public void loginTest() {
         driver.get("https://automationexercise.com");
         List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
@@ -23,7 +79,7 @@ public class E_Tic_Automation extends BaseDriver {
 
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void UrunArama() {
 
 
