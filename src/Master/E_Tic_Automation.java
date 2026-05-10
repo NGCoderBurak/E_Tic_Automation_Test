@@ -78,8 +78,10 @@ public class E_Tic_Automation extends BaseDriver {
     public void loginTest() {
         driver.get("https://automationexercise.com");
         List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
-        if (consentButton.size() > 0) // bu element var ise ekranda
+        if (!consentButton.isEmpty()) // bu element var ise ekranda
             consentButton.get(0).click();
+
+        driver.findElement(By.xpath("//a[contains(text(),'Signup / Login')]")).click();
 
         // Doğru bilgilerle login (Önceki adımda oluşturulan veriler)
         driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys("testuser_99@mail.com");
@@ -107,19 +109,19 @@ public class E_Tic_Automation extends BaseDriver {
 
     }
 
-    @Test(priority = 3)
+    @Test(priority = 4)
     public void UrunDetay() {
 
 
     }
 
-    @Test(priority = 4)
+    @Test(priority = 5)
     public void sepeteUrunEkleme() {
         
     }
 
 
-    @Test(priority = 5)
+    @Test(priority = 6)
     public void CheckoutTesti() {
 
 
