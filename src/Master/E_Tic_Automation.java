@@ -111,6 +111,7 @@ public class E_Tic_Automation extends BaseDriver {
     public void UrunDetay() {
 
 
+
     }
 
     @Test(priority = 4)
@@ -121,6 +122,16 @@ public class E_Tic_Automation extends BaseDriver {
 
     @Test(priority = 5)
     public void CheckoutTesti() {
+
+
+    }
+    @Test(priority = 6)
+    public void ActionTesti(){
+
+    }
+
+    @Test(priority =7)
+    public void AlertTesti(){
 
 
     }
