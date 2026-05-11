@@ -2,26 +2,18 @@ package Master;
 
 import Utility.BaseDriver;
 import Utility.MyFunc;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class E_Tic_Automation extends BaseDriver {
 
     @Test(priority = 1)
-    public void signUp()  {
+    public void signUp() {
         // 1. Home Page açılır
         driver.get("https://automationexercise.com");
         List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
@@ -94,10 +86,8 @@ public class E_Tic_Automation extends BaseDriver {
         Assert.assertTrue(loggedInMsg.getText().contains("TestUser"));
 
 
-
-
-        List<WebElement> errorMsg=driver.findElements(By.xpath("//*[text()='Invalid credentials']"));
-        if (!errorMsg.isEmpty()){
+        List<WebElement> errorMsg = driver.findElements(By.xpath("//*[text()='Invalid credentials']"));
+        if (!errorMsg.isEmpty()) {
             MyFunc.hataliEkran();
         }
 
@@ -113,12 +103,20 @@ public class E_Tic_Automation extends BaseDriver {
     public void UrunDetay() {
 
 
-
     }
 
     @Test(priority = 5)//sevgi
     public void sepeteUrunEkleme() {
-        
+
+        WebElement addToCart = driver.findElement(By.linkText("data-product-id"));
+        addToCart.click();
+        MyFunc.Bekle(2);
+        WebElement viewCart = driver.findElement(By.linkText("View Cart"));
+        viewCart.click();
+        MyFunc.Bekle(2);
+        WebElement cart = driver.findElement(By.linkText("product_details/1"));
+
+
     }
 
 
@@ -127,18 +125,19 @@ public class E_Tic_Automation extends BaseDriver {
 
 
     }
+
     @Test(priority = 6)//yiğit
-    public void ActionTesti(){
+    public void ActionTesti() {
 
     }
 
-    @Test(priority =7)//zeynep
-    public void AlertTesti(){
+    @Test(priority = 7)//zeynep
+    public void AlertTesti() {
 
 
     }
 
-
+}
 
 
 
@@ -168,4 +167,5 @@ public class E_Tic_Automation extends BaseDriver {
     */
 
 
-}
+
+
