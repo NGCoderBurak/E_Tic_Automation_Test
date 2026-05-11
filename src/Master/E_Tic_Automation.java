@@ -101,37 +101,40 @@ public class E_Tic_Automation extends BaseDriver {
 
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3)//tuğçe
     public void UrunArama() {
 
 
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3)//zeynep
     public void UrunDetay() {
 
 
 
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4)//sevgi
     public void sepeteUrunEkleme() {
         
     }
 
 
-    @Test(priority = 5)
+    @Test(priority = 5)//yğithan
     public void CheckoutTesti() {
 
 
     }
-    @Test(priority = 6)
+    @Test(priority = 6)//zeynep
     public void ActionTesti(){
+
+
 
     }
 
-    @Test(priority =7)
+    @Test(priority =7)//yiğithan
     public void AlertTesti(){
+
 
 
     }
