@@ -133,7 +133,7 @@ public class E_Tic_Automation extends BaseDriver {
 
     @Test(priority = 7)//zeynep
     public void AlertTesti() {
-
+        System.out.println("true = " + true);
 
     }
 
