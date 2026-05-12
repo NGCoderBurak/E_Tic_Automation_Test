@@ -108,6 +108,8 @@ public class E_Tic_Automation extends BaseDriver {
     @Test(priority = 5)//sevgi
     public void sepeteUrunEkleme() {
 
+        WebElement products = driver.findElement(By.linkText("products"));
+        products.click();
         WebElement addToCart = driver.findElement(By.linkText("data-product-id"));
         addToCart.click();
         MyFunc.Bekle(2);
@@ -115,6 +117,7 @@ public class E_Tic_Automation extends BaseDriver {
         viewCart.click();
         MyFunc.Bekle(2);
         WebElement cart = driver.findElement(By.linkText("product_details/1"));
+        // deneme push
 
 
     }
