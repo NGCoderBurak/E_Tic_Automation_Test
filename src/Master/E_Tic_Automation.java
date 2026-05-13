@@ -134,7 +134,15 @@ public class E_Tic_Automation extends BaseDriver {
 
     @Test(priority = 4)//toktay
     public void UrunDetay() {
-
+        driver.get("https://automationexercise.com");
+        WebElement products = driver.findElement(By.xpath("//*[text()=' Products']"));
+        products.click();
+        WebElement searchProduct = driver.findElement(By.id("search_product"));
+        searchProduct.sendKeys("dress");
+        WebElement searchButton= driver.findElement(By.id("submit_search"));
+        searchButton.click();
+        List<WebElement> productDetail = driver.findElements(By.xpath("//*[text()='View Product']"));
+        productDetail.get(0).click();
 
     }
 
