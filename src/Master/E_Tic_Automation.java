@@ -4,6 +4,8 @@ import Utility.BaseDriver;
 import Utility.MyFunc;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -95,11 +97,42 @@ public class E_Tic_Automation extends BaseDriver {
 
     @Test(priority = 3)//tuğçe
     public void UrunArama() {
+        driver.get("https://automationexercise.com");
+//        List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
+//        if (!consentButton.isEmpty()) // bu element var ise ekranda
+//            consentButton.get(0).click();
 
+//        List<WebElement> advertButton = driver.findElements(By.id("dismiss-button-element"));
+//        if (!advertButton.isEmpty())
+//            advertButton.get(0).click();
+
+        WebElement products = driver.findElement(By.xpath("//*[text()=' Products']"));
+        products.click();
+
+        WebElement searchProduct = driver.findElement(By.id("search_product"));
+        searchProduct.sendKeys("dress");
+
+        WebElement searchButton= driver.findElement(By.id("submit_search"));
+        searchButton.click();
+//        Sonuçların listelendiğini doğrula (listelenen ürün sayısı 0 dan büyük ise)
+//        5. Kaç üründe aranan kelimenin geçtiğini ve kaç üründe geçmediğini yazdırnız
+        List<WebElement> sonuclar=driver.findElements(By.xpath("//div[@class='productinfo text-center']/p"));
+
+        Assert.assertTrue(sonuclar.size()>0,"Sonuçlar listelenmedi.");
+        int sayac1=0;
+        int sayac2=0;
+        for(WebElement e:sonuclar) {
+            if (e.getText().toLowerCase().contains("dress"))
+                sayac1++;
+            else
+                sayac2++;
+        }
+        System.out.println("Dress içeren ürün sayısı: "+sayac1);
+        System.out.println("Dress içermeyen ürün sayısı: "+sayac2);
 
     }
 
-    @Test(priority = 4)//zeynep
+    @Test(priority = 4)//toktay
     public void UrunDetay() {
 
 
@@ -118,7 +151,6 @@ public class E_Tic_Automation extends BaseDriver {
         MyFunc.Bekle(2);
         WebElement cart = driver.findElement(By.linkText("product_details/1"));
         // deneme push
-
 
     }
 
