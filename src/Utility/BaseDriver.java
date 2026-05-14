@@ -24,10 +24,10 @@ public class BaseDriver {
         bekle=new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-//    @AfterClass
-//    public void TearDown()
-//    {
-//        MyFunc.Bekle(3);
-//        driver.quit();
-//    }
+    @AfterClass
+    public void TearDown()
+    {
+        MyFunc.Bekle(3);
+        driver.quit();
+    }
 }
