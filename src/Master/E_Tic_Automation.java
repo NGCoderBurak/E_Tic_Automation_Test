@@ -3,13 +3,16 @@ package Master;
 import Utility.BaseDriver;
 import Utility.MyFunc;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.List;
 
 public class E_Tic_Automation extends BaseDriver {
@@ -98,52 +101,63 @@ public class E_Tic_Automation extends BaseDriver {
     @Test(priority = 3)//tuğçe
     public void UrunArama() {
         driver.get("https://automationexercise.com");
-//        List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
-//        if (!consentButton.isEmpty()) // bu element var ise ekranda
-//            consentButton.get(0).click();
-
-//        List<WebElement> advertButton = driver.findElements(By.id("dismiss-button-element"));
-//        if (!advertButton.isEmpty())
-//            advertButton.get(0).click();
-
         WebElement products = driver.findElement(By.xpath("//*[text()=' Products']"));
         products.click();
-
+        MyFunc.Bekle(2);
+        // reklam geldiğinde url değişiyor. google_vignette ifadesi yer alıyor. burada eğer url'de bu ifade varsa sayfada geri git dedik ve tekrar products butonuna tıklattırdık.
+        if (driver.getCurrentUrl().contains("google_vignette")) {
+            driver.navigate().back();
+            products.click();
+        }
         WebElement searchProduct = driver.findElement(By.id("search_product"));
         searchProduct.sendKeys("dress");
 
-        WebElement searchButton= driver.findElement(By.id("submit_search"));
+        WebElement searchButton = driver.findElement(By.id("submit_search"));
         searchButton.click();
-//        Sonuçların listelendiğini doğrula (listelenen ürün sayısı 0 dan büyük ise)
-//        5. Kaç üründe aranan kelimenin geçtiğini ve kaç üründe geçmediğini yazdırnız
-        List<WebElement> sonuclar=driver.findElements(By.xpath("//div[@class='productinfo text-center']/p"));
+        // Sonuçların listelendiğini doğrula (listelenen ürün sayısı 0 dan büyük ise)
+        // 5. Kaç üründe aranan kelimenin geçtiğini ve kaç üründe geçmediğini yazdırınız
+        List<WebElement> sonuclar = driver.findElements(By.xpath("//div[@class='productinfo text-center']/p"));
 
-        Assert.assertTrue(sonuclar.size()>0,"Sonuçlar listelenmedi.");
-        int sayac1=0;
-        int sayac2=0;
-        for(WebElement e:sonuclar) {
+        Assert.assertTrue(!sonuclar.isEmpty(), "Sonuçlar listelenmedi.");
+        int sayac1 = 0;
+        int sayac2 = 0;
+        for (WebElement e : sonuclar) {
             if (e.getText().toLowerCase().contains("dress"))
                 sayac1++;
             else
                 sayac2++;
         }
-        System.out.println("Dress içeren ürün sayısı: "+sayac1);
-        System.out.println("Dress içermeyen ürün sayısı: "+sayac2);
+        System.out.println("Dress içeren ürün sayısı: " + sayac1);
+        System.out.println("Dress içermeyen ürün sayısı: " + sayac2);
 
     }
 
     @Test(priority = 4)//toktay
     public void UrunDetay() {
         driver.get("https://automationexercise.com");
-        WebElement products = driver.findElement(By.xpath("//*[text()=' Products']"));
+        WebElement products = bekle.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()=' Products']")));
         products.click();
+        MyFunc.Bekle(2);
+        // reklam geldiğinde url değişiyor. google_vignette ifadesi yer alıyor. burada eğer url'de bu ifade varsa sayfada geri git dedik ve tekrar products butonuna bastırdık.
+        if (driver.getCurrentUrl().contains("google_vignette")) {
+            driver.navigate().back();
+            products.click();
+        }
         WebElement searchProduct = driver.findElement(By.id("search_product"));
         searchProduct.sendKeys("dress");
-        WebElement searchButton= driver.findElement(By.id("submit_search"));
+        WebElement searchButton = driver.findElement(By.id("submit_search"));
         searchButton.click();
         List<WebElement> productDetail = driver.findElements(By.xpath("//*[text()='View Product']"));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true)", productDetail.get(0));
         productDetail.get(0).click();
-
+        // fiyat, kategori ve erişilebilirlik alanları ürün detayında görünüyor mu diye kontrol ettirdik.
+        WebElement price = driver.findElement(By.xpath("//*[contains(text(),'Rs.')]"));
+        Assert.assertTrue(price.isDisplayed());
+        WebElement category = driver.findElement(By.xpath("//*[contains(text(),'Category:')]"));
+        Assert.assertTrue(category.isDisplayed());
+        WebElement availability = driver.findElement(By.xpath("//*[contains(text(),'Availability:')]"));
+        Assert.assertTrue(availability.isDisplayed());
     }
 
     @Test(priority = 5)//sevgi
