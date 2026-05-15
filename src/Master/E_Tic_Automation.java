@@ -169,18 +169,53 @@ public class E_Tic_Automation extends BaseDriver {
     @Test(priority = 5)//sevgi
     public void sepeteUrunEkleme() {
 
-        WebElement products = driver.findElement(By.linkText("products"));
+        driver.get("https://automationexercise.com");
+        List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
+        if (consentButton.size() > 0) // bu element var ise ekranda
+            consentButton.get(0).click();
+        // 1. Ürünler sayfasına git
+        //*** Önemli ve Güzel bir komut.. Teşekkürler Tuğçe ve Sevgi...
+        WebElement products = bekle.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()=' Products']")));
         products.click();
-        WebElement addToCart = driver.findElement(By.linkText("data-product-id"));
+        MyFunc.Bekle(2);
+        // reklam geldiğinde url değişiyor. google_vignette ifadesi yer alıyor. burada eğer url'de bu ifade varsa sayfada geri git dedik ve tekrar products butonuna bastırdık.
+        if (driver.getCurrentUrl().contains("google_vignette")) {
+            driver.navigate().back();
+            products.click();
+        }
+        System.out.println("Ürünler sayfasına gidildi.");
+
+        // 2.Ürünü sepete ekle
+        WebElement addToCart = bekle.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@data-product-id='1'])[1]")));
         addToCart.click();
         MyFunc.Bekle(2);
-        WebElement viewCart = driver.findElement(By.linkText("View Cart"));
-        viewCart.click();
+        if (driver.getCurrentUrl().contains("google_vignette")) {
+            driver.navigate().back();
+            addToCart.click();
+        }
+        System.out.println("Ürün sepete eklendi.");
+
         MyFunc.Bekle(2);
-        WebElement cart = driver.findElement(By.linkText("product_details/1"));
-        // deneme push
+
+        // 3. "View Cart" (Sepeti Görüntüle) tıkla
+        WebElement viewCart = driver.findElement(By.xpath("//u[contains(text(),'View Cart')]"));
+        viewCart.click();
+        System.out.println("Sepete gidiliyor...");
+
+        MyFunc.Bekle(2);
+
+        // 4. Sepette olduğunu doğrula
+        WebElement cartItem = driver.findElement(By.id("product-1"));
+
+        if (cartItem.isDisplayed()) {
+            System.out.println("DOĞRULAMA: Ürün başarıyla sepette görünüyor!");
+        } else {
+            System.out.println("HATA: Ürün sepette bulunamadı.");
+        }
+
 
     }
+
 
 
     @Test(priority = 6)//yiğit
