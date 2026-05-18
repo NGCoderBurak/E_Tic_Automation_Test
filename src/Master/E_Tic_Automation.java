@@ -224,6 +224,19 @@ public class E_Tic_Automation extends BaseDriver {
     @Test(priority = 6)//yiğit
     public void CheckoutTesti() {
 
+        driver.get("https://opencart.abstracta.us/index.php?route=checkout/cart");
+
+        driver.findElement(By.linkText("Checkout")).click();
+        bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-payment-address"))).click();
+        bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-shipping-address"))).click();
+        bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-shipping-method"))).click();
+        WebElement agree = bekle.until(ExpectedConditions.elementToBeClickable(By.name("agree")));
+        if (!agree.isSelected()) agree.click();
+        driver.findElement(By.id("button-payment-method")).click();
+        bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-confirm"))).click();
+
+        WebElement successMsg = bekle.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Your order has been placed!']")));
+        Assert.assertEquals(successMsg.getText(), "Your order has been placed!", "Sipariş onayı alınamadı!");
 
     }
 
