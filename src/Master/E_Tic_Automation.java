@@ -66,7 +66,6 @@ public class E_Tic_Automation extends BaseDriver {
         Assert.assertEquals(successMsg.getText(), "ACCOUNT CREATED!");
 
         // 8. Screenshot alınır
-        // takeScreenshot("AccountCreatedSuccess");
         LocalDateTime dt=LocalDateTime.now();
         DateTimeFormatter format= DateTimeFormatter.ofPattern("dd-MM-yyyy_hh-mm");
         TakesScreenshot ts=(TakesScreenshot)driver;
@@ -81,8 +80,8 @@ public class E_Tic_Automation extends BaseDriver {
     public void loginTest() {
         driver.get("https://automationexercise.com");
         List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
-        if (!consentButton.isEmpty()) // bu element var ise ekranda
-            consentButton.get(0).click();
+        if (!consentButton.isEmpty()) // (!) bu element var ise ekranda
+            consentButton.get(0).click();   // 0. indexte olanına tıklat
 
         driver.findElement(By.xpath("//a[contains(text(),'Signup / Login')]")).click();
 
@@ -110,11 +109,15 @@ public class E_Tic_Automation extends BaseDriver {
         WebElement products = driver.findElement(By.xpath("//*[text()=' Products']"));
         products.click();
         MyFunc.Bekle(2);
-        // reklam geldiğinde url değişiyor. google_vignette ifadesi yer alıyor. burada eğer url'de bu ifade varsa sayfada geri git dedik ve tekrar products butonuna tıklattırdık.
+        // google reklamı sadece Products a tıklatınca geliyor..
+        // reklam geldiğinde url değişiyor. google_vignette ifadesi yer alıyor.
+        // burada eğer url'de bu ifade varsa sayfada geri git dedik ve
+        // tekrar products butonuna tıklattırdık.
         if (driver.getCurrentUrl().contains("google_vignette")) {
             driver.navigate().back();
             products.click();
         }
+
         WebElement searchProduct = driver.findElement(By.id("search_product"));
         searchProduct.sendKeys("dress");
 
@@ -125,8 +128,8 @@ public class E_Tic_Automation extends BaseDriver {
         List<WebElement> sonuclar = driver.findElements(By.xpath("//div[@class='productinfo text-center']/p"));
 
         Assert.assertTrue(!sonuclar.isEmpty(), "Sonuçlar listelenmedi.");
-        int sayac1 = 0;
-        int sayac2 = 0;
+        int sayac1 = 0;     // dress içerenlerin sayacı
+        int sayac2 = 0;     // dress içermeyenlerin sayacı
         for (WebElement e : sonuclar) {
             if (e.getText().toLowerCase().contains("dress"))
                 sayac1++;
@@ -186,7 +189,7 @@ public class E_Tic_Automation extends BaseDriver {
         System.out.println("Ürünler sayfasına gidildi.");
 
         // 2.Ürünü sepete ekle
-        WebElement addToCart = bekle.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@data-product-id='1'])[1]")));
+        WebElement addToCart = bekle.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Add to cart']")));
         addToCart.click();
         MyFunc.Bekle(2);
         if (driver.getCurrentUrl().contains("google_vignette")) {
