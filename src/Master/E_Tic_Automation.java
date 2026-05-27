@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -67,12 +68,12 @@ public class E_Tic_Automation extends BaseDriver {
         Assert.assertEquals(successMsg.getText(), "ACCOUNT CREATED!");
 
         // 8. Screenshot alınır
-        LocalDateTime dt=LocalDateTime.now();
-        DateTimeFormatter format= DateTimeFormatter.ofPattern("dd-MM-yyyy_hh-mm");
-        TakesScreenshot ts=(TakesScreenshot)driver;
-        File hafizadakiEkranGoruntusu= ts.getScreenshotAs(OutputType.FILE);
+        LocalDateTime dt = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy_hh-mm");
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File hafizadakiEkranGoruntusu = ts.getScreenshotAs(OutputType.FILE);
 
-        String path="ekranGoruntuleri/Screenshot_"+dt.format(format)+".jpg";
+        String path = "ekranGoruntuleri/Screenshot_" + dt.format(format) + ".jpg";
         FileUtils.copyFile(hafizadakiEkranGoruntusu, new File(path));
     }
 
@@ -203,11 +204,10 @@ public class E_Tic_Automation extends BaseDriver {
         MyFunc.Bekle(2);
 
         WebElement cartItem = driver.findElement(By.id("product-1"));
-        Assert.assertTrue(cartItem.isDisplayed(),"Ürün sepette bulunamadı!");
+        Assert.assertTrue(cartItem.isDisplayed(), "Ürün sepette bulunamadı!");
 
 
     }
-
 
 
     @Test(priority = 6)//yiğit
@@ -259,12 +259,23 @@ public class E_Tic_Automation extends BaseDriver {
     public void AlertTesti() {
 
         driver.get("https://opencart.abstracta.us/index.php?route=common/home");
-        MyFunc.Bekle(2);
-        driver.findElement(By.xpath("/html/body/footer/div/div/div[2]/ul/li[1]/a")).click();
+
+        driver.findElement(By.linkText("Contact Us")).click();
         driver.findElement(By.id("input-name")).sendKeys("zeynep 1");
         driver.findElement(By.id("input-email")).sendKeys("zeynepati@gmail.com");
         driver.findElement(By.name("enquiry")).sendKeys("your website sucks");
-        driver.findElement(By.cssSelector("[class='btn btn-primary']")).click();
+        WebElement submitBtn = bekle.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[class='btn btn-primary']")));
+        submitBtn.click();
+
+//        WebElement clickMe=driver.findElement(By.id("alert"));
+//        clickMe.click();
+//        MyFunc.Bekle(2);
+//        //su anda alert çıkmış oldu
+//
+//        driver.switchTo().alert().accept();//Alertin ok butonuna bas
+ // ALERT BULUNAMADI.
+
+
         bekle.until(ExpectedConditions.urlContains("success"));
         Assert.assertTrue(driver.getCurrentUrl().contains("success"));
 
