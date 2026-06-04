@@ -40,7 +40,8 @@ public class E_Tic_Automation extends BaseDriver {
         driver.findElement(By.cssSelector("button[data-qa='signup-button']")).click();
 
         // 4. Formdaki dropdown’lar seçilir (Wait kullanımı)
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_gender1"))).click();
+        bekle.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form > div.clearfix > label")));
+        driver.findElement(By.id("id_gender1")).click();
         driver.findElement(By.id("password")).sendKeys(password);
 
         Select days = new Select(driver.findElement(By.id("days")));
