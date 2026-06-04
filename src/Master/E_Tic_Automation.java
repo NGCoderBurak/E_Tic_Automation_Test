@@ -2,6 +2,7 @@ package Master;
 
 import Utility.BaseDriver;
 import Utility.MyFunc;
+import com.github.javafaker.Faker;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -17,6 +18,11 @@ import java.util.List;
 
 public class E_Tic_Automation extends BaseDriver {
 
+    Faker randomUreteci = new Faker();
+    String username = "";
+    String email = "";
+    String password = "";
+
     @Test(priority = 1)
     public void signUp() throws IOException {
         // 1. Home Page açılır
@@ -29,13 +35,13 @@ public class E_Tic_Automation extends BaseDriver {
         driver.findElement(By.xpath("//a[contains(text(),'Signup / Login')]")).click();
 
         // 3. Yeni kullanıcı bilgileri girilir
-        driver.findElement(By.cssSelector("input[data-qa='signup-name']")).sendKeys("TestUser");
-        driver.findElement(By.cssSelector("input[data-qa='signup-email']")).sendKeys("testuser_99@mail.com");
+        driver.findElement(By.cssSelector("input[data-qa='signup-name']")).sendKeys(username);
+        driver.findElement(By.cssSelector("input[data-qa='signup-email']")).sendKeys(email);
         driver.findElement(By.cssSelector("button[data-qa='signup-button']")).click();
 
         // 4. Formdaki dropdown’lar seçilir (Wait kullanımı)
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_gender1"))).click();
-        driver.findElement(By.id("password")).sendKeys("Password123");
+        driver.findElement(By.id("password")).sendKeys(password);
 
         Select days = new Select(driver.findElement(By.id("days")));
         days.selectByVisibleText("10");
@@ -47,7 +53,7 @@ public class E_Tic_Automation extends BaseDriver {
         years.selectByValue("1995");
 
         // 5. Adres bilgileri doldurulur
-        driver.findElement(By.id("first_name")).sendKeys("Ali");
+        driver.findElement(By.id("first_name")).sendKeys(username);
         driver.findElement(By.id("last_name")).sendKeys("Can");
         driver.findElement(By.id("address1")).sendKeys("Karanfil Sokak No:5");
 
@@ -77,7 +83,7 @@ public class E_Tic_Automation extends BaseDriver {
     }
 
 
-    @Test(priority = 2)
+    @Test(dependsOnMethods = {"signUp"})
     public void loginTest() {
         driver.get("https://automationexercise.com");
         List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
@@ -87,14 +93,14 @@ public class E_Tic_Automation extends BaseDriver {
         driver.findElement(By.xpath("//a[contains(text(),'Signup / Login')]")).click();
 
         // Doğru bilgilerle login (Önceki adımda oluşturulan veriler)
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys("testuser_99@mail.com");
-        driver.findElement(By.cssSelector("input[data-qa='login-password']")).sendKeys("Password123");
+        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(email);
+        driver.findElement(By.cssSelector("input[data-qa='login-password']")).sendKeys(password);
         driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
 
         // “Logged in as username” doğrulanır
         WebElement loggedInMsg = driver.findElement(By.xpath("//*[contains(text(),'Logged in as')]"));
         Assert.assertTrue(loggedInMsg.isDisplayed());
-        Assert.assertTrue(loggedInMsg.getText().contains("TestUser"));
+        Assert.assertTrue(loggedInMsg.getText().contains(username));
 
 
         List<WebElement> errorMsg = driver.findElements(By.xpath("//*[text()='Invalid credentials']"));
@@ -104,7 +110,7 @@ public class E_Tic_Automation extends BaseDriver {
 
     }
 
-    @Test(priority = 3)//tuğçe
+    @Test(dependsOnMethods = {"loginTest"})//tuğçe
     public void UrunArama() {
         driver.get("https://automationexercise.com");
         WebElement products = driver.findElement(By.xpath("//*[text()=' Products']"));
@@ -142,7 +148,7 @@ public class E_Tic_Automation extends BaseDriver {
 
     }
 
-    @Test(priority = 4)//toktay
+    @Test(dependsOnMethods = {"UrunArama"})//toktay
     public void UrunDetay() {
         driver.get("https://automationexercise.com");
         WebElement products = bekle.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[text()=' Products']")));
@@ -170,7 +176,7 @@ public class E_Tic_Automation extends BaseDriver {
         Assert.assertTrue(availability.isDisplayed());
     }
 
-    @Test(priority = 5)//sevgi
+    @Test(dependsOnMethods = {"UrunDetay"})//sevgi
     public void sepeteUrunEkleme() {
 
         driver.get("https://automationexercise.com");
@@ -210,7 +216,7 @@ public class E_Tic_Automation extends BaseDriver {
 
 
 
-    @Test(priority = 6)//yiğit
+    @Test (dependsOnMethods = {"sepeteUrunEkleme"})//yiğit
     public void CheckoutTesti() {
 
         driver.get("https://opencart.abstracta.us/index.php?route=checkout/cart");
@@ -220,16 +226,16 @@ public class E_Tic_Automation extends BaseDriver {
         bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-shipping-address"))).click();
         bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-shipping-method"))).click();
         WebElement agree = bekle.until(ExpectedConditions.elementToBeClickable(By.name("agree")));
-        if (!agree.isSelected()) agree.click();
+        agree.click();
         driver.findElement(By.id("button-payment-method")).click();
         bekle.until(ExpectedConditions.elementToBeClickable(By.id("button-confirm"))).click();
 
         WebElement successMsg = bekle.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[text()='Your order has been placed!']")));
-        Assert.assertEquals(successMsg.getText(), "Your order has been placed!", "Sipariş onayı alınamadı!");
+        Assert.assertEquals (successMsg.getText(), "Your order has been placed!", "Sipariş onayı alınamadı!");
 
     }
 
-    @Test(priority = 7)     // Yiğithan
+    @Test(dependsOnMethods = {"CheckoutTesti"})     // Yiğithan
     public void hoverActionTesti() {
         driver.get("https://automationexercise.com/products");
         List<WebElement> consentButton = driver.findElements(By.xpath("//*[text()='Consent']"));
@@ -260,9 +266,9 @@ public class E_Tic_Automation extends BaseDriver {
 
         driver.get("https://opencart.abstracta.us/index.php?route=common/home");
         MyFunc.Bekle(2);
-        driver.findElement(By.xpath("/html/body/footer/div/div/div[2]/ul/li[1]/a")).click();
-        driver.findElement(By.id("input-name")).sendKeys("zeynep 1");
-        driver.findElement(By.id("input-email")).sendKeys("zeynepati@gmail.com");
+        driver.findElement(By.linkText("Contact Us")).click();
+        driver.findElement(By.id("input-name")).sendKeys(username);
+        driver.findElement(By.id("input-email")).sendKeys(email);
         driver.findElement(By.name("enquiry")).sendKeys("your website sucks");
         driver.findElement(By.cssSelector("[class='btn btn-primary']")).click();
         bekle.until(ExpectedConditions.urlContains("success"));
